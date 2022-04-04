@@ -1,13 +1,11 @@
-﻿Console.WriteLine("Введите число");
+// Задача 1: Пользователь вводит с клавиатуры M чисел. Посчитайте, сколько чисел больше 0 ввёл пользователь.
+Console.WriteLine("Введите число");
 int number = Convert.ToInt32(Console.ReadLine());
 Console.WriteLine(" ");
 
 int count = 1;
 
-while (count <= number)
-{
-    Console.Write(count*count*count);
-    Console.Write(", ");
-    count++;
-    
-}
+
+// Задача 2: Пользователь вводит с клавиатуры кол-во строк и столбцов для массива. Вывести массив в виде матрицы, создав "рамку" из единиц, а внутреннюю зону матрицы заполнить нулями.
+
+
