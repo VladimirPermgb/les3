@@ -1,55 +1,54 @@
-// Задача 1: Задайте массив заполненный случайными положительными трёхзначными числами. Напишите программу, которая покажет количество чётных чисел в массиве.
-// [345, 897, 568, 234] -> 2
+﻿// Треугольник Паскаля
 
-Console.WriteLine("Введите размерность");
-int razm = Convert.ToInt32(Console.ReadLine());
-int a = 0;
-int[] mass = new int[razm];
 
-for (int i = 0; i < razm; i++)
+int[,] PascalTriangle(int level)
 {
-    mass[i] = new Random().Next(100, 1000);
-    Console.Write(mass[i] + " ");
-	if (mass[i] % 2 == 0) a++;	
+    int[,] pasTr = new int[level+1,level+1];
+
+    pasTr[0,0] = 1;
+
+    for (int i = 1; i < level+1; i++)
+        pasTr[0,i] = 0;
+
+    for (int i = 1; i < level+1; i++)
+    {
+        pasTr[i,0] = 1;
+        for (int j = 1; j < level+1; j++)
+            pasTr[i,j] = pasTr[i-1,j-1] + pasTr[i-1,j];     
+    }
+   
+    return pasTr;
 }
-Console.WriteLine();
-Console.WriteLine(a + " - Количество чётных");
 
-// Задача 2: Задайте одномерный массив, заполненный случайными числами. Найдите сумму элементов, стоящих на нечётных позициях.
-// [3, 7, 23, 12] -> 19
-// [-4, -6, 89, 6] -> 0
-
-Console.WriteLine("Введите размерность");
-int razm = Convert.ToInt32(Console.ReadLine());
-int a = 0;
-int[] mass = new int[razm];
-
-for (int i = 0; i < razm; i++)
+string DigIndend(int value, string indend = "")
 {
-    mass[i] = new Random().Next(1, 23);
-    Console.Write(mass[i] + " ");
-	if (i % 2 != 0) a = mass[i] + a;	
+    return value==0 ? indend : DigIndend(value / 10, indend + " ");
 }
-Console.WriteLine();
-Console.WriteLine(a + " - Сумма чисел на чётных позициях");
 
-// Задача 3: Задайте массив вещественных чисел. Найдите разницу между максимальным и минимальным элементов массива.
-// [3 7 22 2 78] -> 76
-
-Console.WriteLine("Введите размерность");
-int razm = Convert.ToInt32(Console.ReadLine());
-int[] mass = new int[razm];
-int min = mass[0];
-int max = mass[0];
-
-for (int i = 0; i < razm; i++)
+string FinIndend(int len, string indend = " ")
 {
-    mass[i] = new Random().Next(-15, 19);
-    Console.Write(mass[i] + " ");
-	if (mass[i] > max) max = mass[i];
-	if (mass[i] < min) min = mass[i];
+    return len==0 ? indend : FinIndend(len-1, indend + " ");
 }
-Console.WriteLine();
-Console.WriteLine(min + " - Минимальное число");
-Console.WriteLine(max + " - Максимальное число");
-Console.WriteLine(max - min + " - Разница");
+
+void PrintPascalTriangle(int[,] matr)
+{
+    int n = matr.GetLength(0);
+    string[] pt = new string[n];
+
+    for (int i = n-1; i > 0; i--)
+        for (int j = 0; j < i+1; j++)
+            pt[i] += $"{matr[i,j]}{DigIndend(matr[i-1,j])}"; 
+    pt[0] = "1";
+
+    int shift = (double)n%2 == 0 ? 1 : 0;
+    int sp = pt[n-1].Length/2 - shift;
+
+    for (int i = 0; i < n-1; i++)    {
+        Console.WriteLine($"{FinIndend(sp - pt[i].Length/2)}{pt[i]}");
+    }
+
+    Console.WriteLine();  
+}
+
+Console.Clear();
+PrintPascalTriangle(PascalTriangle(20));
